@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大康养高管每日简报 · 2026-06-29</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh; color: #2c3e50;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+  header {
+    background: #fff; border-radius: 16px; padding: 20px 28px;
+    margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .title-block h1 { font-size: 22px; color: #1a3a5c; }
+  .title-block p { font-size: 13px; color: #6b7c8c; margin-top: 4px; }
+  .player-bar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px; padding: 20px 28px; margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(102,126,234,0.3); color: #fff;
+  }
+  .player-bar .row {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .btn {
+    background: #fff; color: #667eea; border: none; border-radius: 50%;
+    width: 52px; height: 52px; font-size: 22px; cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: transform 0.15s;
+    flex-shrink: 0;
+  }
+  .btn:hover { transform: scale(1.05); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .progress-wrap { flex: 1; min-width: 220px; }
+  .progress-bar {
+    width: 100%; height: 6px; background: rgba(255,255,255,0.3);
+    border-radius: 3px; cursor: pointer;
+  }
+  .progress-fill {
+    height: 100%; background: #fff; border-radius: 3px; width: 0%; transition: width 0.2s;
+  }
+  .time-row {
+    display: flex; justify-content: space-between;
+    font-size: 12px; margin-top: 6px; opacity: 0.9;
+  }
+  .speed-control select {
+    background: rgba(255,255,255,0.2); color: #fff;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 8px; padding: 6px 10px; font-size: 13px; cursor: pointer;
+  }
+  .speed-control option { color: #2c3e50; }
+  .briefing {
+    background: #fff; border-radius: 16px; padding: 28px 36px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06); line-height: 1.85;
+  }
+  .briefing h2 {
+    color: #1a3a5c; font-size: 18px;
+    border-left: 4px solid #667eea; padding-left: 12px; margin: 24px 0 12px;
+  }
+  .briefing h2:first-of-type { margin-top: 0; }
+  .briefing ol li {
+    margin: 10px 0 10px 8px; padding: 12px 14px;
+    background: #f8f9fc; border-radius: 8px;
+    transition: all 0.3s; border-left: 3px solid transparent;
+  }
+  .briefing ol li.playing {
+    background: linear-gradient(90deg, #fff5e6 0%, #fff 100%);
+    border-left-color: #ff8c42; transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(255,140,66,0.15);
+  }
+  .briefing strong { color: #c0392b; }
+  .briefing em { color: #8e44ad; font-style: normal; font-weight: 600; }
+  .daily-tip {
+    background: linear-gradient(90deg, #fff5e6 0%, #fff 100%);
+    border-left: 4px solid #ff8c42;
+    padding: 14px 18px; border-radius: 8px;
+    margin: 12px 0 16px; font-size: 15px; line-height: 1.75;
+    color: #5a3e1b;
+  }
+  .daily-tip strong { color: #d35400; }
+  .briefing .source {
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px dashed #e0e6ed;
+    font-size: 13px;
+  }
+  .briefing .source a {
+    color: #667eea; text-decoration: none;
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 6px;
+    background: #f0f3fc; transition: all 0.2s;
+  }
+  .briefing .source a:hover {
+    background: #667eea; color: #fff; transform: translateX(2px);
+  }
+  .briefing .content { margin-bottom: 4px; }
+  .toast {
+    position: fixed; top: 24px; right: 24px;
+    background: #e74c3c; color: #fff; padding: 12px 20px;
+    border-radius: 8px; font-size: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: none; z-index: 9999; max-width: 360px;
+  }
+  .toast.show { display: block; }
+  footer {
+    text-align: center; color: #95a5a6; font-size: 12px;
+    margin-top: 24px; padding: 12px;
+  }
+  @media (max-width: 640px) {
+    .container { padding: 12px; }
+    header, .player-bar, .briefing { border-radius: 12px; padding: 16px; }
+    .title-block h1 { font-size: 18px; }
+    .briefing { padding: 20px 18px; font-size: 14px; }
+    .briefing h2 { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<div class="container">
+  <header>
+    <div class="title-block">
+      <h1>📋 太平洋保险·大康养高管每日简报</h1>
+      <p>2026-06-29 · 星期一 · 文字 + 语音同步呈现</p>
+    </div>
+  </header>
+  <div class="player-bar">
+    <div class="row">
+      <button class="btn" id="playBtn" title="点击开始播放">▶</button>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="time-row">
+          <span id="curTime">00:00</span>
+          <span id="totalTime">--:--</span>
+        </div>
+      </div>
+      <div class="speed-control">
+        <select id="speed">
+          <option value="0.8">0.8× 慢速</option>
+          <option value="1.0" selected>1.0× 正常</option>
+          <option value="1.25">1.25× 稍快</option>
+          <option value="1.5">1.5× 快速</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <article class="briefing" id="briefing">
+    <h2>一、大康养行业动态</h2>
+    <ol>
+      <li data-start="0"><div class="content"><strong>中国太保寿险"区域智慧生活节"落地济南，紧扣"北极星计划"</strong>（6月28日） 6月27日，太保寿险在济南源申康复医院落地"区域智慧生活节"活动，依托终身长护险专属产品"颐护金生"，搭建数智康养体验、专业政策解读、客户互动交流多元场景。<strong>影响</strong>：这是太保"北极星计划"转型的客户侧落地样本，建议高管团队将其作为内部康养服务标杆案例复盘，复制到其他重点城市。</div>
+        <div class="source"><a href="http://finance.sina.com.cn/wm/2026-06-28/doc-iniexpvw4005644.shtml" target="_blank" rel="noopener noreferrer">📎 阅读原文</a></div>
+      </li>
+      <li data-start="30"><div class="content"><strong>2026全国老年健康宣传周收官，主题"用药有方，银龄安康"</strong>（6月22日到28日） 国家卫健委与国家中医药局联合组织，围绕老年人用药安全、健康素养制作科普视频。<strong>影响</strong>：可借势开展"用药管理+保险保障"组合营销，建议太保大康养在 7 月承接该主题做客户教育。</div>
+        <div class="source"><a href="https://www.nhc.gov.cn/lljks/c100157/20266月48日dbe31980d443b7b13d760ac6154152.shtml" target="_blank" rel="noopener noreferrer">📎 阅读原文</a></div>
+      </li>
+      <li data-start="60"><div class="content"><strong>大家保险联合北京CBD论坛办"在城心，谈城心"养老主题活动</strong>（6月17日） 政府领导、行业专家共话城市核心区银发经济新生态。<strong>影响</strong>：竞品在"城心养老"赛道加码，太保应评估是否跟进或差异化定位（如"近郊医养"或"居家+上门"模式）。</div>
+        <div class="source"><a href="https://www.cnr.cn/mspd/msyx/20260622/t20260622_527671835.shtml" target="_blank" rel="noopener noreferrer">📎 阅读原文</a></div>
+      </li>
+      <li data-start="90"><div class="content"><strong>金融监管总局2026年规章制定计划多项涉及保险</strong>（6月23日） 修订《保险资金运用管理办法》《偿付能力管理办法》，制定《流动性风险管理办法》《网络安全管理办法》。<strong>影响</strong>：偿付能力监管升级倒逼资产负债结构优化，太平洋资本补充压力可控，长期利好稳健经营。</div>
+        <div class="source"><a href="https://finance.cctv.com/2026月6日/23/ARTIlD0oVaNYFl6ikGOPrO88260623.shtml" target="_blank" rel="noopener noreferrer">📎 阅读原文</a></div>
+      </li>
+    </ol>
+    <h2>二、书画拍卖资讯</h2>
+    <ol>
+      <li data-start="120"><div class="content"><strong>嘉德"嘉选"九月拍卖6月27日到28日上海公开征集收官</strong>（6月27日到28日） 中国嘉德中端艺术品市场平台，本次在沪公开征集中国书画。<strong>关注点</strong>：征集火爆度是下半年行情先导信号；如能拿到征集数据，可判断 9 月拍卖热度。</div>
+        <div class="source"><a href="https://news.artron.net/20260625/n1151732.html" target="_blank" rel="noopener noreferrer">📎 阅读原文</a></div>
+      </li>
+      <li data-start="150"><div class="content"><strong>朵云轩2026春拍江寒汀家属旧藏专场已于6月27日结束</strong>  Lot816与Lot24-Lot30直接得自江寒汀家属。<strong>关注点</strong>：家属旧藏历来是价格催化剂，江寒汀每平尺近期稳定在5-10万元，可作长期配置标的；建议查实际成交记录。</div>
+        <div class="source"><a href="https://m.thepaper.cn/newsDetail_forward_33448162" target="_blank" rel="noopener noreferrer">📎 阅读原文</a></div>
+      </li>
+      <li data-start="180"><div class="content"><strong>上海龙之梦万丽酒店6月28日集中举槌多场拍卖</strong>（6月28日） 雅鉴艺术网显示上海多场拍卖集中于 6月28日 10:00 开拍，地点为龙之梦万丽酒店 10 楼。<strong>关注点</strong>：周末集中举槌反映上海艺术品交易活跃度，可关注现场成交率。</div>
+        <div class="source"><a href="https://www.artauctioner.com/web/calendar" target="_blank" rel="noopener noreferrer">📎 阅读原文</a></div>
+      </li>
+      <li data-start="210"><div class="content"><strong>保利厦门2026春拍6月26日到27日收官</strong>（6月24日到27日） 古代书画精品专场启幕，央企龙头的预展反响可直接观察今年古代书画行情冷热。<strong>关注点</strong>：保利春拍数据已出，建议跟踪其古代书画板块整体成交率。</div>
+        <div class="source"><a href="https://news.artron.net/20260624/n1151713.html" target="_blank" rel="noopener noreferrer">📎 阅读原文</a></div>
+      </li>
+    </ol>
+    <h2>三、运动健身前沿</h2>
+
+    <div class="daily-tip"><strong>💡 今日贴士</strong>：周一早晨容易"开机困难"——周末补眠反而打乱昼夜节律。建议起床后 10 分钟内做 20 个深蹲 + 30 秒平板支撑，让心率快速提升到 100 以上，皮质醇与多巴胺同步释放，比咖啡更提神，且不影响夜间入睡。 1. **JAMA Network Open：老年人力量训练可显著延长寿命** 研究显示 65 岁以上人群每周 2-6 次力量训练比少于 2 次者寿命更长，与有氧结合效果更佳。**启示**：可针对银发客户开发"力量训练指导+保险权益"组合产品，呼应大康养"主动健康"理念。 [原文链接](https://www.toutiao.com/article/7156033296525509151/) 2. **运动科学研究：力量训练应放在有氧之前** 美国运动科学研究指出，先力量后有氧能更好利用能量储备，提高基础代谢率，长期利于减重塑形；建议力量训练前做 5-10 分钟有氧热身。**启示**：可作为客户健身指导手册的科学依据，丰富大康养"健康顾问"内容库。 [原文链接](https://www.sohu.com/a/810914506_121956423) 3. **8周同期训练对照实验：先力量后有氧优于反向** 实验A组（先力量后有氧）在腿部围度增长和力量提升方面显著优于先有氧组。**启示**：为健身课程设计提供循证依据，可作为太保大康养"运动处方"产品的科学支撑。 [原文链接](https://max.book118.com/html/2024/1123/7005054156010001.shtm)</div>
+    <ol>
+    </ol>
+  </article>
+  <footer>简报由 WorkBuddy 自动整理 · 语音引擎：edge-tts · MP3 已内嵌，离线可用</footer>
+</div>
+</div></body></html>
